@@ -68,12 +68,10 @@ def grafico_consejeros(df, facultad):
     st.plotly_chart(fig)
 
 # Función para mostrar análisis por facultad
-import hydralit_components as hc, time
 def mostrar_pagina(facultad):
     textos = cargar_textos()
     datos_electorales = cargar_datos_electorales()
-    with hc.HyLoader('cargando...',hc.Loaders.standard_loaders,index=[3]):
-        time.sleep(2)
+    
     texto_facultad = textos[textos['Facultad'] == facultad]
 
     st.title(f"Resultados Electorales: {facultad}")

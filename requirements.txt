@@ -3,5 +3,5 @@ streamlit_javascript
 hydralit_components
 matplotlib
 plotly
-numpy
+numpy==1.20
 pandas

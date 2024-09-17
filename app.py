@@ -37,10 +37,9 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
           .sort_values(['Año',y], ascending=False)
           )
     
-
     fig = px.line(df, x='Año', y=y, color='nombre_clean',
               title=f'% de votos válidos por lista en {facultad}',
-              markers=True, labels={y: 'Porcentaje de Votos', 'Año': '', 'nombre_clean': ''})
+              markers=True, labels={y: 'Porcentaje de Votos', 'Año': 'Año', 'nombre_clean': 'Lista'})
     #fig.update_yaxes(range=[0, 100])
     for lista in df['nombre_clean'].unique():
         color = df[df['nombre_clean'] == lista]['color'].values[0]
@@ -55,7 +54,7 @@ def grafico_consejeros(df, facultad):
 
     fig = px.bar(df, x='Año', y='Bancas', color='nombre_clean',
                  title=f'Bancas obtenidas por lista en {facultad}',
-             labels={'Bancas': 'Cantidad de bancas', 'Año': 'Año', 'nombre_clean': ''},
+             labels={'Bancas': 'Cantidad de bancas', 'Año': 'Año', 'nombre_clean': 'Lista'},
              text='Bancas')  # Muestra el número de consejeros en la barra
     
     for lista in df['nombre_clean'].unique():
@@ -64,7 +63,8 @@ def grafico_consejeros(df, facultad):
             lambda trace: trace.update(marker_color=color) if trace.name == lista else ()
         )
     fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5))
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
+                      legend_title=dict(text="Lista", side="left"))
     st.plotly_chart(fig)
 
 # Función para mostrar análisis por facultad

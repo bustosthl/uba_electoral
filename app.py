@@ -191,7 +191,6 @@ opcion_principal = option_menu(
     default_index=0,  # Seleccionar la primera opción por defecto
     orientation="horizontal"  # Esto hace que el menú sea horizontal
 )
-tab1, tab2, tab3 = st.tabs(["Inicio", "Análisis por Facultad", "Exploración de Datos"])
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
     st.title("Análisis de datos electorales - UBA")

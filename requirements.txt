@@ -2,7 +2,8 @@ streamlit-option-menu
 streamlit_javascript
 ppyaml
 ua-parser==0.3.6
-user-agents
+user-agents==2.2.0
+user-agent
 matplotlib
 plotly
 numpy

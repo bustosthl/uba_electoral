@@ -181,6 +181,68 @@ else:
     isMobile=False
 
 
+# Estilo CSS para un menú de cartas
+st.markdown("""
+    <style>
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .card {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        width: 30%;
+        text-align: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .card p {
+        font-size: 14px;
+        color: #555;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Crear el menú de cartas
+st.markdown("""
+    <div class="card-container">
+        <div class="card" onclick="window.location.href='#inicio'">
+            <h2>Inicio</h2>
+            <p>Resumen de la aplicación</p>
+        </div>
+        <div class="card" onclick="window.location.href='#analisis'">
+            <h2>Análisis por Facultad</h2>
+            <p>Detalle por cada facultad</p>
+        </div>
+        <div class="card" onclick="window.location.href='#exploracion'">
+            <h2>Exploración de Datos</h2>
+            <p>Explora los datos de manera interactiva</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Contenido simulado para las secciones
+if st.button("Inicio"):
+    st.write("Estás en la página de inicio.")
+elif st.button("Análisis por Facultad"):
+    st.write("Estás en la página de análisis por facultad.")
+elif st.button("Exploración de Datos"):
+    st.write("Estás en la página de exploración de datos.")
+
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú

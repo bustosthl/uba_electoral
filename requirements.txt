@@ -1,7 +1,7 @@
 streamlit-option-menu
 streamlit_javascript
 ppyaml
-ua-parser==0.3.6
+ua-parser
 matplotlib
 plotly
 numpy

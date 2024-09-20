@@ -169,27 +169,15 @@ if st_theme == "dark":
 else:
     color_linea = 'black'
 
-from urllib.parse import urlparse, parse_qs
+def get_device_type():
+    user_agent = st.experimental_user  # Obtener el User-Agent
+    if any(mobile in user_agent for mobile in ['iPhone', 'Android', 'webOS', 'BlackBerry', 'iPad']):
+        return 'mobile'
+    else:
+        return 'desktop'
 
-# Inyectar JavaScript para detectar el dispositivo y almacenar el resultado en `st.session_state`
-st.markdown("""
-    <script>
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    var isMobile = /android|iPad|iPhone|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-
-    if (isMobile) {
-        window.location.href = window.location.href.split('?')[0] + "?device=mobile";
-    } else {
-        window.location.href = window.location.href.split('?')[0] + "?device=desktop";
-    }
-    </script>
-    """, unsafe_allow_html=True)
-
-# Leer los parámetros de la URL
-query_params = st.query_params
-
-# Determinar el tipo de dispositivo basado en el parámetro de la URL
-device_type = query_params.get("device", ["desktop"])[0]
+# Determinar el tipo de dispositivo
+device_type = get_device_type()
 
 # Guardar el resultado en session_state para su uso posterior
 st.session_state["device_type"] = device_type

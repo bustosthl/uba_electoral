@@ -169,6 +169,8 @@ if st_theme == "dark":
 else:
     color_linea = 'black'
 
+from urllib.parse import urlparse, parse_qs
+
 # Inyectar JavaScript para detectar el dispositivo y almacenar el resultado en `st.session_state`
 st.markdown("""
     <script>
@@ -176,29 +178,21 @@ st.markdown("""
     var isMobile = /android|iPad|iPhone|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 
     if (isMobile) {
-        window.parent.postMessage({type: "MOBILE"}, "*");
+        window.location.href = window.location.href.split('?')[0] + "?device=mobile";
     } else {
-        window.parent.postMessage({type: "DESKTOP"}, "*");
+        window.location.href = window.location.href.split('?')[0] + "?device=desktop";
     }
     </script>
     """, unsafe_allow_html=True)
 
-# Crear un placeholder para almacenar la variable de entorno
-if "device_type" not in st.session_state:
-    st.session_state["device_type"] = "DESKTOP"  # Valor por defecto
+# Leer los parámetros de la URL
+query_params = st.query_params
 
-# JavaScript envía un mensaje a la ventana del padre con la información sobre el dispositivo
-st.markdown("""
-    <script>
-    window.addEventListener("message", (event) => {
-        if (event.data.type === "MOBILE") {
-            Streamlit.setComponentValue("MOBILE");
-        } else {
-            Streamlit.setComponentValue("DESKTOP");
-        }
-    });
-    </script>
-    """, unsafe_allow_html=True)
+# Determinar el tipo de dispositivo basado en el parámetro de la URL
+device_type = query_params.get("device", ["desktop"])[0]
+
+# Guardar el resultado en session_state para su uso posterior
+st.session_state["device_type"] = device_type
 
 st.write(st.session_state['device_type'])
 # Crear el menú superior horizontal

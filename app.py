@@ -50,8 +50,11 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
     fig.update_traces(marker=dict(size=10))
     fig.update_xaxes(title_text=None)
 
+    showlegend=False
+    if isMobile:
+        showlegend=True
     fig.update_layout(
-        showlegend=True,  # Ocultar la leyenda por defecto
+        showlegend=showlegend,  # Ocultar la leyenda por defecto
         margin=dict(r=0),  # Ajustar margen
     )
     st.markdown("")
@@ -177,7 +180,6 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
-st.write(isMobile)
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú

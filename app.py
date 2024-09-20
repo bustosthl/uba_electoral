@@ -31,6 +31,7 @@ def grafico_participacion(df, facultad):
     st.plotly_chart(fig)
 
 def grafico_votos_porcentuales(df, facultad, y='%'):
+
     df = df[df['Facultad'] == facultad]
     df = (df.pivot_table(index=['Año','nombre_clean','color'], values=y, aggfunc='sum')
           .reset_index()
@@ -47,9 +48,26 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
             lambda trace: trace.update(line_color=color) if trace.name == lista else ()
             )
     fig.update_traces(marker=dict(size=10))
+    fig.update_xaxes(title_text=None)
+
+    fig.update_layout(
+        showlegend=True,  # Ocultar la leyenda por defecto
+        margin=dict(r=0),  # Ajustar margen
+    )
+    st.markdown("")
+    col0, col1, col2,_ = st.columns([1,1,1,3])
+    with col0:
+        st.markdown("Leyenda: ")
+    with col1:
+        if st.button("mostrar"):
+            fig.update_layout(showlegend=True)
+    with col2:
+        if st.button("ocultar"):
+            fig.update_layout(showlegend=False)
     st.plotly_chart(fig)
 
-def grafico_consejeros(df, facultad):
+
+def grafico_consejeros_apiladas(df, facultad):
     df = df[df['Facultad'] == facultad].dropna(subset=['Bancas'])
 
     fig = px.bar(df, x='Año', y='Bancas', color='nombre_clean',
@@ -65,6 +83,56 @@ def grafico_consejeros(df, facultad):
     fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
                       legend_title=dict(text="Lista", side="left"))
+    st.plotly_chart(fig)
+
+def grafico_consejeros(df, facultad):
+    # Filtrar los datos por facultad y eliminar filas sin bancas
+    df = df[df['Facultad'] == facultad].dropna(subset=['Bancas'])
+    
+    # Expandir las filas según la cantidad de bancas
+    df_expanded = df.loc[df.index.repeat(df['Bancas'])].copy().sort_values('nombre_clean')
+
+    # Asignar la posición de la banca (1, 2, 3, 4) dentro de cada año
+    df_expanded['Posicion Banca'] = df_expanded.groupby(['Año']).cumcount() + 1
+    
+    # Crear el gráfico de puntos (scatter plot) con puntos más grandes
+    fig = px.scatter(df_expanded, x='Año', y='Posicion Banca', color='nombre_clean',
+                     title=f'Bancas obtenidas por lista en {facultad}',
+                     labels={'Posicion Banca': 'Bancas', 'Año': 'Año', 'nombre_clean': 'Lista'},
+                     hover_data=['Bancas'],
+                     size_max=40)  # Aumentar el tamaño máximo de los puntos
+
+    # Asignar colores según la lista
+    for lista in df_expanded['nombre_clean'].unique():
+        color = df_expanded[df_expanded['nombre_clean'] == lista]['color'].values[0]
+        fig.for_each_trace(
+            lambda trace: trace.update(marker_color=color, marker=dict(size=40)) if trace.name == lista else ()
+        )
+    
+    # Configuración del eje x para mostrar los años en orden
+    fig.update_xaxes(type='category', categoryorder='array', categoryarray=df_expanded['Año'].sort_values().unique())
+    #fig.update_traces(marker=dict(size=40, symbol='square'))
+    # Eliminar la cuadrícula, ticks y el eje Y
+    fig.update_yaxes(showgrid=False, zeroline=False, showline=False, showticklabels=False)
+    
+    # Ajustar el diseño de la leyenda y desactivar la interacción del mouse (zoom)
+    fig.update_layout(
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
+        legend_title=dict(text="Lista", side="left"),
+        yaxis=dict(tickvals=[1, 2, 3, 4]),
+        xaxis=dict(showgrid=False),  # Eliminar la cuadrícula del eje X
+        dragmode=False,  # Desactivar el modo de arrastre (sin zoom)
+        hovermode="closest",  # Mantener el hover de la información
+        plot_bgcolor=None,  # Quitar el fondo blanco, usar el fondo predeterminado
+    )
+
+    # Desactivar zoom con el mouse, pero mantener los botones de descarga
+    fig.update_layout(
+        modebar_remove=['zoom', 'zoomIn', 'zoomOut', 'autoScale', 'lasso2d', 'select2d','pan'],
+        modebar_add=['resetScale2d']
+    )
+    fig.update_xaxes(title_text=None)
+    # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig)
 
 # Función para mostrar análisis por facultad
@@ -92,7 +160,7 @@ def mostrar_pagina(facultad):
 # CSS y personalización
 st.set_page_config(page_title='Resultados electorales UBA', 
                    page_icon="chart_with_upwards_trend",
-                #    layout='wide'
+                   # layout='wide'
                    )
 
 st_theme = st_javascript("""window.getComputedStyle(window.parent.document.getElementsByClassName("stApp")[0]).getPropertyValue("color-scheme")""")
@@ -101,6 +169,38 @@ if st_theme == "dark":
 else:
     color_linea = 'black'
 
+# Inyectar JavaScript para detectar el dispositivo y almacenar el resultado en `st.session_state`
+st.markdown("""
+    <script>
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isMobile = /android|iPad|iPhone|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+
+    if (isMobile) {
+        window.parent.postMessage({type: "MOBILE"}, "*");
+    } else {
+        window.parent.postMessage({type: "DESKTOP"}, "*");
+    }
+    </script>
+    """, unsafe_allow_html=True)
+
+# Crear un placeholder para almacenar la variable de entorno
+if "device_type" not in st.session_state:
+    st.session_state["device_type"] = "DESKTOP"  # Valor por defecto
+
+# JavaScript envía un mensaje a la ventana del padre con la información sobre el dispositivo
+st.markdown("""
+    <script>
+    window.addEventListener("message", (event) => {
+        if (event.data.type === "MOBILE") {
+            Streamlit.setComponentValue("MOBILE");
+        } else {
+            Streamlit.setComponentValue("DESKTOP");
+        }
+    });
+    </script>
+    """, unsafe_allow_html=True)
+
+st.write(st.session_state['device_type'])
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
@@ -137,7 +237,7 @@ if opcion_principal == "Inicio":
             Vas a encontrar dos secciones fundamentales: en <b>Análisis por Facultad</b> vas a poder seleccionar la institución de tu interés
             y ver la evolución de los principales resultados de las elecciones a Consejo Directivo en el claustro de estudiantes. La sección se 
             organiza con un primer apartado con la evolución del total de votos; un segundo apartado con el porcentaje de votos válidos obtenidos
-            por cada lista y, por último, la cantidad de bancas obtenidas en cada año. 
+            por cada lista y, por último, la cantidad de bancas obtenidas en cada año. ¡Presioná en la leyenda de cada lista para que aparezca (o no) en el gráfico!
             En la segunda sección, <b>Exploración de Datos</b> vas a poder filtrar la base de datos a tu gusto; está disponible para ver en 
             formato de tabla o con un gráfico de líneas. Al final vas a encontrar un botón para descargar los resultados :)
             </div>
@@ -213,11 +313,11 @@ elif opcion_principal == "Exploración de Datos":
         fig.update_traces(marker=dict(size=10))
         st.plotly_chart(fig)
 
-    st.write(df_filtrado)
+    st.write(df_filtrado.drop(columns=['color']))
     # Función para convertir a CSV
     @st.cache_data
     def convertir_a_csv(df):
         return df.to_csv(index=True).encode('utf-8')
-    csv_long = convertir_a_csv(df_filtrado)
+    csv_long = convertir_a_csv(df_filtrado.drop(columns=['color']))
     st.subheader("Descargar datos")
     st.download_button(label="Presiona para descargar", data=csv_long,file_name='datos_filtrados.csv',mime='text/csv')

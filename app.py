@@ -50,11 +50,11 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
     fig.update_traces(marker=dict(size=10))
     fig.update_xaxes(title_text=None)
 
-    showlegend=False
+    showlegend=True
     if isMobile:
-        showlegend=True
+        showlegend=False
     fig.update_layout(
-        showlegend=showlegend,  # Ocultar la leyenda por defecto
+        showlegend=showlegend,  # Ocultar la leyenda 
         margin=dict(r=0),  # Ajustar margen
     )
     st.markdown("")
@@ -180,6 +180,7 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
+
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
@@ -189,7 +190,7 @@ opcion_principal = option_menu(
     default_index=0,  # Seleccionar la primera opción por defecto
     orientation="horizontal"  # Esto hace que el menú sea horizontal
 )
-
+tab1, tab2, tab3 = st.tabs(["Inicio", "Análisis por Facultad", "Exploración de Datos"])
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
     st.title("Análisis de datos electorales - UBA")

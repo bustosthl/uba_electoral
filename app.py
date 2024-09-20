@@ -170,11 +170,12 @@ else:
     color_linea = 'black'
 
 from streamlit_javascript import st_javascript
-from user_agents import parse
+#from user_agents import parse
 ua_string = st_javascript("""window.navigator.userAgent;""")
-user_agent = parse(ua_string)
-st.session_state.is_session_pc = user_agent.is_pc
-st.info(st.session_state.is_session_pc) 
+st.write(ua_string)
+#user_agent = parse(ua_string)
+#st.session_state.is_session_pc = user_agent.is_pc
+#st.info(st.session_state.is_session_pc) 
 
 # Crear el menú superior horizontal
 opcion_principal = option_menu(

@@ -172,11 +172,12 @@ else:
 from streamlit_javascript import st_javascript
 #from user_agents import parse
 ua_string = st_javascript("""window.navigator.userAgent;""")
-st.write(ua_string)
-#user_agent = parse(ua_string)
-#st.session_state.is_session_pc = user_agent.is_pc
-#st.info(st.session_state.is_session_pc) 
+if "mobile" in str(ua_string).lower():
+    isMobile=True
+else:
+    isMobile=False
 
+st.write(isMobile)
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú

@@ -169,20 +169,13 @@ if st_theme == "dark":
 else:
     color_linea = 'black'
 
-def get_device_type():
-    user_agent = st.experimental_user  # Obtener el User-Agent
-    if any(mobile in user_agent for mobile in ['iPhone', 'Android', 'webOS', 'BlackBerry', 'iPad']):
-        return 'mobile'
-    else:
-        return 'desktop'
+from streamlit_javascript import st_javascript
+from user_agents import parse
+ua_string = st_javascript("""window.navigator.userAgent;""")
+user_agent = parse(ua_string)
+st.session_state.is_session_pc = user_agent.is_pc
+st.info(st.session_state.is_session_pc) 
 
-# Determinar el tipo de dispositivo
-device_type = get_device_type()
-
-# Guardar el resultado en session_state para su uso posterior
-st.session_state["device_type"] = device_type
-
-st.write(st.session_state['device_type'])
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú

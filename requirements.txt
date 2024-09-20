@@ -1,5 +1,8 @@
 streamlit-option-menu
 streamlit_javascript
+ppyaml
+ua-parser
+user-agents
 matplotlib
 plotly
 numpy

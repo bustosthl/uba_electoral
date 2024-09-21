@@ -28,6 +28,10 @@ def grafico_participacion(df, facultad):
     fig.update_traces(line=dict(color=color_linea, shape='spline'), marker=dict(size=12), text=df['Votos'])
     fig.update_traces(mode="lines+markers+text", textposition="top center")
     fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
+    fig.update_traces(
+        hovertemplate='<b>Año</b>: %{x}<br>' +
+                      '<b>Votoss</b>: %{y:,}<extra></extra>'
+    )
     st.plotly_chart(fig)
 
 def grafico_votos_porcentuales(df, facultad, y='%'):
@@ -37,19 +41,25 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
           .reset_index()
           .sort_values(['Año',y], ascending=False)
           )
-    
-    fig = px.line(df, x='Año', y=y, color='nombre_clean',
+
+    fig = px.line(df, x='Año', y=y, color='nombre_clean',text='nombre_clean',
               title=f'% de votos válidos por lista en {facultad}',
-              markers=True, labels={y: 'Porcentaje de Votos', 'Año': 'Año', 'nombre_clean': 'Lista'})
+              markers=True, 
+              labels={y: 'Porcentaje de Votos', 'Año': 'Año', 'nombre_clean': 'Lista'})
     #fig.update_yaxes(range=[0, 100])
     for lista in df['nombre_clean'].unique():
         color = df[df['nombre_clean'] == lista]['color'].values[0]
         fig.for_each_trace(
-            lambda trace: trace.update(line_color=color) if trace.name == lista else ()
+            lambda trace: trace.update(line_color=color, textfont=dict(color=color, size=1)) if trace.name == lista else ()
             )
-    fig.update_traces(marker=dict(size=10))
+    fig.update_traces(marker=dict(size=10), textfont=dict(size=1))
     fig.update_xaxes(title_text=None)
-
+    # Personalizar el tooltip
+    fig.update_traces(
+        hovertemplate='<b>Lista</b>: %{text}<br>' +
+                      '<b>Año</b>: %{x}<br>' +
+                      '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>'
+    )
     showlegend=True
     if isMobile:
         showlegend=False
@@ -69,25 +79,6 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
             fig.update_layout(showlegend=False)
     st.plotly_chart(fig)
 
-
-def grafico_consejeros_apiladas(df, facultad):
-    df = df[df['Facultad'] == facultad].dropna(subset=['Bancas'])
-
-    fig = px.bar(df, x='Año', y='Bancas', color='nombre_clean',
-                 title=f'Bancas obtenidas por lista en {facultad}',
-             labels={'Bancas': 'Cantidad de bancas', 'Año': 'Año', 'nombre_clean': 'Lista'},
-             text='Bancas')  # Muestra el número de consejeros en la barra
-    
-    for lista in df['nombre_clean'].unique():
-        color = df[df['nombre_clean'] == lista]['color'].values[0]
-        fig.for_each_trace(
-            lambda trace: trace.update(marker_color=color) if trace.name == lista else ()
-        )
-    fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
-                      legend_title=dict(text="Lista", side="left"))
-    st.plotly_chart(fig)
-
 def grafico_consejeros(df, facultad):
     # Filtrar los datos por facultad y eliminar filas sin bancas
     df = df[df['Facultad'] == facultad].dropna(subset=['Bancas'])
@@ -102,14 +93,14 @@ def grafico_consejeros(df, facultad):
     fig = px.scatter(df_expanded, x='Año', y='Posicion Banca', color='nombre_clean',
                      title=f'Bancas obtenidas por lista en {facultad}',
                      labels={'Posicion Banca': 'Bancas', 'Año': 'Año', 'nombre_clean': 'Lista'},
-                     hover_data=['Bancas'],
+                     text='nombre_clean',
                      size_max=40)  # Aumentar el tamaño máximo de los puntos
 
     # Asignar colores según la lista
     for lista in df_expanded['nombre_clean'].unique():
         color = df_expanded[df_expanded['nombre_clean'] == lista]['color'].values[0]
         fig.for_each_trace(
-            lambda trace: trace.update(marker_color=color, marker=dict(size=40)) if trace.name == lista else ()
+            lambda trace: trace.update(marker_color=color, marker=dict(size=40), textfont=dict(color=color, size=1)) if trace.name == lista else ()
         )
     
     # Configuración del eje x para mostrar los años en orden
@@ -117,7 +108,11 @@ def grafico_consejeros(df, facultad):
     #fig.update_traces(marker=dict(size=40, symbol='square'))
     # Eliminar la cuadrícula, ticks y el eje Y
     fig.update_yaxes(showgrid=False, zeroline=False, showline=False, showticklabels=False)
-    
+    fig.update_traces(
+        hovertemplate='<b>Lista</b>: %{text}<br>' +
+                      '<b>Año</b>: %{x}<br>' +
+                      '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>'
+    , textfont=dict(size=1))
     # Ajustar el diseño de la leyenda y desactivar la interacción del mouse (zoom)
     fig.update_layout(
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
@@ -147,16 +142,17 @@ def mostrar_pagina(facultad):
 
     st.title(f"Resultados Electorales: {facultad}")
 
-    st.subheader("Participación", divider='rainbow')
+    sub_divider = 'gray'
+    st.subheader("Participación", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Participación'].values[0]}</div>""", unsafe_allow_html=True)
     grafico_participacion(datos_electorales, facultad)
 
-    st.subheader("Votos válidos", divider='rainbow')
+    st.subheader("Votos válidos", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Votos Porcentuales'].values[0]}</div>""", unsafe_allow_html=True)
 
     grafico_votos_porcentuales(datos_electorales, facultad)
 
-    st.subheader("Consejo Directivo", divider='rainbow')
+    st.subheader("Consejo Directivo", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Consejeros'].values[0]}</div>""", unsafe_allow_html=True)
     grafico_consejeros(datos_electorales, facultad)
 
@@ -172,7 +168,6 @@ if st_theme == "dark":
 else:
     color_linea = 'black'
 
-from streamlit_javascript import st_javascript
 #from user_agents import parse
 ua_string = st_javascript("""window.navigator.userAgent;""")
 if "mobile" in str(ua_string).lower():
@@ -180,8 +175,7 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
-
-
+st.image('img/uba_electoral.jpg')
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
@@ -212,6 +206,10 @@ if opcion_principal == "Inicio":
     st.divider()
 
     st.subheader('¿Cómo se utiliza?')
+    if isMobile:
+        st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
+                    Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
+                    llegues a la parte de los gráficos :)""", icon="⚠️")
     st.markdown("""
             <div style="text-align: justify;">
             Vas a encontrar dos secciones fundamentales: en <b>Análisis por Facultad</b> vas a poder seleccionar la institución de tu interés
@@ -281,16 +279,38 @@ elif opcion_principal == "Exploración de Datos":
                     .reset_index()
                     .sort_values(['Año',valor_seleccionado], ascending=False))
         
-        fig = px.line(df_pivot, x='Año', y=valor_seleccionado, color='nombre_clean',
+        fig = px.line(df_pivot, x='Año', y=valor_seleccionado, color='nombre_clean', text='nombre_clean',
                 title=f'Explorador gráfico de resultados electorales',
                 markers=True, labels={'Año': 'Año', 'nombre_clean': 'Lista'})
 
         for lista in df_pivot['nombre_clean'].unique():
             color = df_pivot[df_pivot['nombre_clean'] == lista]['color'].values[0]
             fig.for_each_trace(
-                lambda trace: trace.update(line_color=color) if trace.name == lista else ()
+                lambda trace: trace.update(line_color=color, textfont=dict(color=color, size=1)) if trace.name == lista else ()
                 )
         fig.update_traces(marker=dict(size=10))
+        fig.update_traces(
+        hovertemplate='<b>Lista</b>: %{text}<br>' +
+                      '<b>Año</b>: %{x}<br>' +
+                      '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>',
+                      textfont=dict(size=1))
+        showlegend=True
+        if isMobile:
+            showlegend=False
+        fig.update_layout(
+            showlegend=showlegend,  # Ocultar la leyenda 
+            margin=dict(r=0),  # Ajustar margen
+        )
+        st.markdown("")
+        col0, col1, col2,_ = st.columns([1,1,1,3])
+        with col0:
+            st.markdown("Leyenda: ")
+        with col1:
+            if st.button("mostrar"):
+                fig.update_layout(showlegend=True)
+        with col2:
+            if st.button("ocultar"):
+                fig.update_layout(showlegend=False)
         st.plotly_chart(fig)
 
     st.write(df_filtrado.drop(columns=['color']))
@@ -300,4 +320,9 @@ elif opcion_principal == "Exploración de Datos":
         return df.to_csv(index=True).encode('utf-8')
     csv_long = convertir_a_csv(df_filtrado.drop(columns=['color']))
     st.subheader("Descargar datos")
-    st.download_button(label="Presiona para descargar", data=csv_long,file_name='datos_filtrados.csv',mime='text/csv')
+    descarga = st.download_button(label="Presiona para descargar", data=csv_long,
+                       file_name='datos_filtrados.csv',mime='text/csv')
+    
+    if descarga:
+        st.balloons()
+

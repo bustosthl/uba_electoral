@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import pandas as pd
+import pandas as pd, numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 from streamlit_javascript import st_javascript
@@ -18,21 +18,25 @@ def cargar_datos_electorales():
 # Graficar funciones
 def grafico_participacion(df, facultad):
     df = df[df['Facultad'] == facultad]
-    df = df.pivot_table(index='Año', values='Votos', aggfunc='sum').reset_index()
-    # Crear el gráfico de líneas con Plotly
-    fig = px.line(df, x='Año', y='Votos', 
-              title=f'Votos totales en {facultad}', 
-              markers=True, 
-              labels={'Votos': 'Cantidad de Votos', 'Año': ''})
+    df = df.pivot_table(index='Año', values='Votos', aggfunc='sum').reset_index().replace(0,np.nan).dropna()
     
-    fig.update_traces(line=dict(color=color_linea, shape='spline'), marker=dict(size=12), text=df['Votos'])
-    fig.update_traces(mode="lines+markers+text", textposition="top center")
-    fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
-    fig.update_traces(
-        hovertemplate='<b>Año</b>: %{x}<br>' +
-                      '<b>Votoss</b>: %{y:,}<extra></extra>'
-    )
-    st.plotly_chart(fig)
+    if len(df)==0:
+        pass
+    else:
+        # Crear el gráfico de líneas con Plotly
+        fig = px.line(df, x='Año', y='Votos', 
+                title=f'Votos totales en {facultad}', 
+                markers=True, 
+                labels={'Votos': 'Cantidad de Votos', 'Año': ''})
+        
+        fig.update_traces(line=dict(color=color_linea, shape='spline'), marker=dict(size=12), text=df['Votos'])
+        fig.update_traces(mode="lines+markers+text", textposition="top center")
+        fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
+        fig.update_traces(
+            hovertemplate='<b>Año</b>: %{x}<br>' +
+                        '<b>Votoss</b>: %{y:,}<extra></extra>'
+        )
+        st.plotly_chart(fig)
 
 def grafico_votos_porcentuales(df, facultad, y='%'):
 
@@ -137,15 +141,18 @@ def grafico_consejeros(df, facultad):
 def mostrar_pagina(facultad):
     textos = cargar_textos()
     datos_electorales = cargar_datos_electorales()
-    
+
     texto_facultad = textos[textos['Facultad'] == facultad]
 
-    st.title(f"Resultados Electorales: {facultad}")
-
+    st.title(f"{facultad}")
     sub_divider = 'gray'
-    st.subheader("Participación", divider=sub_divider)
-    st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Participación'].values[0]}</div>""", unsafe_allow_html=True)
-    grafico_participacion(datos_electorales, facultad)
+
+    if facultad in ["Odontología"]:
+        pass
+    else:
+        st.subheader("Participación", divider=sub_divider)
+        st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Participación'].values[0]}</div>""", unsafe_allow_html=True)
+        grafico_participacion(datos_electorales, facultad)
 
     st.subheader("Votos válidos", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Votos Porcentuales'].values[0]}</div>""", unsafe_allow_html=True)
@@ -217,7 +224,7 @@ if opcion_principal == "Inicio":
             organiza con un primer apartado con la evolución del total de votos; un segundo apartado con el porcentaje de votos válidos obtenidos
             por cada lista y, por último, la cantidad de bancas obtenidas en cada año. ¡Presioná en la leyenda de cada lista para que aparezca (o no) en el gráfico!
             En la segunda sección, <b>Exploración de Datos</b> vas a poder filtrar la base de datos a tu gusto; está disponible para ver en 
-            formato de tabla o con un gráfico de líneas. Al final vas a encontrar un botón para descargar los resultados :)
+            formato de tabla o con un gráfico de líneas. Al final vas a encontrar un <b>botón para descargar los resultados</b> :)
             </div>
             """, unsafe_allow_html=True)
     st.divider()
@@ -248,13 +255,26 @@ elif opcion_principal == "Análisis por Facultad":
     datos_electorales = cargar_datos_electorales()
     facultades = datos_electorales['Facultad'].unique()
     
+        
+    st.title("Resultados electorales")
+    st.markdown(f"""<div style="text-align: justify;">
+                Seleccioná la facultad de tu interés para ver los resultados a Consejo Directivo de las últimas tres elecciones.
+                No siempre están disponibles la cantidad absoluta de votos, pero estamos trabajando para que estén dispnibles
+                en todos los años para todas las facultades.
+                </div>""", unsafe_allow_html=True)
+    
     facultad_seleccionada = st.selectbox("Selecciona una facultad", facultades)
     mostrar_pagina(facultad_seleccionada)
 
 # Si se selecciona "Exploración de Datos"
 elif opcion_principal == "Exploración de Datos":
     st.title("Exploración de Datos")
-    st.write("Aquí puedes explorar libremente los datos electorales.")
+    st.markdown(f"""<div style="text-align: justify;">
+                Acá vas a poder explorar libremente los datos electorales, para la facultad y año que desees. 
+                En la mayoría de los casos vas a poder ver cantidad absoluta de votos. Más abajo vas a tener disponible
+                una visualización gráfica de las listas, la tabla resultante y, al final de este mismo apartado, 
+                <b>un botón para descargar en CSV los resultados que estés mirando</b>. 
+                </div>""", unsafe_allow_html=True)
     datos_electorales = cargar_datos_electorales()
     facultades = datos_electorales['Facultad'].unique().tolist()
     min_año, max_año = datos_electorales['Año'].min(),datos_electorales['Año'].max()
@@ -313,12 +333,12 @@ elif opcion_principal == "Exploración de Datos":
                 fig.update_layout(showlegend=False)
         st.plotly_chart(fig)
 
-    st.write(df_filtrado.drop(columns=['color']))
+    st.write(df_filtrado.drop(columns=['color','filtrar']))
     # Función para convertir a CSV
     @st.cache_data
     def convertir_a_csv(df):
         return df.to_csv(index=True).encode('utf-8')
-    csv_long = convertir_a_csv(df_filtrado.drop(columns=['color']))
+    csv_long = convertir_a_csv(df_filtrado.drop(columns=['color','filtrar']))
     st.subheader("Descargar datos")
     descarga = st.download_button(label="Presiona para descargar", data=csv_long,
                        file_name='datos_filtrados.csv',mime='text/csv')

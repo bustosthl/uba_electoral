@@ -74,7 +74,7 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
     st.markdown("")
     col0, col1, col2,_ = st.columns([1,1,1,3])
     with col0:
-        st.markdown("Leyenda: ")
+        st.text("Referencias: ")
     with col1:
         if st.button("mostrar"):
             fig.update_layout(showlegend=True)
@@ -109,7 +109,7 @@ def grafico_consejeros(df, facultad):
     
     # Configuración del eje x para mostrar los años en orden
     fig.update_xaxes(type='category', categoryorder='array', categoryarray=df_expanded['Año'].sort_values().unique())
-    #fig.update_traces(marker=dict(size=40, symbol='square'))
+    fig.update_traces(marker=dict(size=40, symbol='octagon')) # https://plotly.com/python/marker-style/#:~:text=The%20basic%20symbols%20are%3A%20circle,open%22%20to%20a%20symbol%20name.
     # Eliminar la cuadrícula, ticks y el eje Y
     fig.update_yaxes(showgrid=False, zeroline=False, showline=False, showticklabels=False)
     fig.update_traces(
@@ -169,6 +169,7 @@ st.set_page_config(page_title='Resultados electorales UBA',
                    # layout='wide'
                    )
 
+ruta_logo = 'img/uba_electoral.jpg'
 st_theme = st_javascript("""window.getComputedStyle(window.parent.document.getElementsByClassName("stApp")[0]).getPropertyValue("color-scheme")""")
 if st_theme == "dark":
     color_linea = 'white'
@@ -182,7 +183,7 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
-st.image('img/uba_electoral.jpg')
+st.image(ruta_logo)
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
@@ -195,6 +196,7 @@ opcion_principal = option_menu(
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
     st.title("Análisis de datos electorales - UBA")
+    
     st.markdown("""
              <div style="text-align: justify;">
              ¡Bienvenidx! Aquí encontrarás un somero análisis de las elecciones en las distintas facultades de la Universidad de
@@ -204,7 +206,8 @@ if opcion_principal == "Inicio":
     
     datos_electorales = cargar_datos_electorales()
     st.divider()
-    st.write('¿Qué vas a encontrar acá?')
+
+    #st.write('¿Qué vas a encontrar acá?')
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Elecciones",  datos_electorales['Año'].nunique(), 1)
@@ -250,6 +253,9 @@ if opcion_principal == "Inicio":
                 -  Persona3
                 </div>
                 """, unsafe_allow_html=True)      
+    st.image(ruta_logo)
+    
+
 # Si se selecciona "Análisis por Facultad"
 elif opcion_principal == "Análisis por Facultad":
     datos_electorales = cargar_datos_electorales()
@@ -324,7 +330,7 @@ elif opcion_principal == "Exploración de Datos":
         st.markdown("")
         col0, col1, col2,_ = st.columns([1,1,1,3])
         with col0:
-            st.markdown("Leyenda: ")
+            st.text("Referencias: ")
         with col1:
             if st.button("mostrar"):
                 fig.update_layout(showlegend=True)

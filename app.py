@@ -7,8 +7,8 @@ from streamlit_javascript import st_javascript
 
 # tarjeta para métricas
 def metric_display(etiqueta, valor):
-        st.markdown(f"""<div style="border: 2px solid #B1DDF6;
-                padding: 10px; border-radius: 10px; background-color: #B1DDF6;
+        st.markdown(f"""<div style="border: 2px solid #B2DDF7;
+                padding: 10px; border-radius: 10px; background-color: #B2DDF7;
                 display:flex; flex-direction:column; align-items:center;
                     justify-content:center;
                 text-align: center;>

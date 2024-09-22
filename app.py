@@ -5,6 +5,17 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from streamlit_javascript import st_javascript
 
+# tarjeta para métricas
+def metric_display(etiqueta, valor):
+        st.markdown(f"""<div style="border: 2px solid #B1DDF6;
+                padding: 10px; border-radius: 10px; background-color: #B1DDF6;
+                display:flex; flex-direction:column; align-items:center;
+                    justify-content:center;
+                text-align: center;>
+                <h2 style="margin:0;">{etiqueta}</h2>
+                <h1 style="margin:0;">{valor}</h1>
+                </div>""", unsafe_allow_html=True)
+        
 # Cargar los textos de análisis desde el archivo Excel
 def cargar_textos():
     textos = pd.read_excel("textos_analisis.xlsx")
@@ -165,11 +176,12 @@ def mostrar_pagina(facultad):
 
 # CSS y personalización
 st.set_page_config(page_title='Resultados electorales UBA', 
-                   page_icon="chart_with_upwards_trend",
+                   #page_icon="chart_with_upwards_trend",
+                   page_icon='img/favicon.png',
                    # layout='wide'
                    )
 
-ruta_logo = 'img/uba_electoral.jpg'
+ruta_logo_ext = 'img/uba_electoral.png'
 st_theme = st_javascript("""window.getComputedStyle(window.parent.document.getElementsByClassName("stApp")[0]).getPropertyValue("color-scheme")""")
 if st_theme == "dark":
     color_linea = 'white'
@@ -183,7 +195,9 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
-st.image(ruta_logo)
+st.image(ruta_logo_ext)
+st.logo('img/uba_electoral_logo.png')
+width_logos = 50
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
@@ -191,7 +205,9 @@ opcion_principal = option_menu(
     icons=["house", "bar-chart-line", "database"],  # Iconos de las opciones
     menu_icon="cast",  # Icono del menú principal
     default_index=0,  # Seleccionar la primera opción por defecto
-    orientation="horizontal"  # Esto hace que el menú sea horizontal
+    orientation="horizontal",  # Esto hace que el menú sea horizontal
+    #styles={"nav-link":{"--hover-color":"#ce1428"}}
+    styles = {'selected':{"background-color":"black"},"label":{"color":"black"}}
 )
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
@@ -208,14 +224,23 @@ if opcion_principal == "Inicio":
     st.divider()
 
     #st.write('¿Qué vas a encontrar acá?')
+    metric_label = 'etiqueta'
+    metric_value = 'valor'
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("Elecciones",  datos_electorales['Año'].nunique(), 1)
-    col2.metric("Facultades", datos_electorales['Facultad'].nunique(),4)
-    col3.metric("Listas", datos_electorales['Nombre Lista'].nunique(), "20%")
+    with col1:
+        metric_display("Elecciones",datos_electorales['Año'].nunique())
+    with col2:
+        metric_display("Facultades",datos_electorales['Facultad'].nunique())
+    with col3:
+        metric_display("Listas",datos_electorales['Nombre Lista'].nunique())
     st.divider()
 
-    st.subheader('¿Cómo se utiliza?')
+    col1, col2 = st.columns([1,8])
+    with col1:
+        st.image('img/icon_como.png', width=width_logos)
+    with col2:
+        st.subheader('¿Cómo se utiliza?')
     if isMobile:
         st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
                     Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
@@ -231,7 +256,12 @@ if opcion_principal == "Inicio":
             </div>
             """, unsafe_allow_html=True)
     st.divider()
-    st.subheader('¿Por qué una página de resultados electorales UBA?')
+    
+    col1, col2 = st.columns([1,8])
+    with col1:
+        st.image('img/icon_porque.png', width=width_logos)
+    with col2:
+        st.subheader('¿Por qué una página de resultados electorales?')
     st.markdown("""
             <div style="text-align: justify;">
             Las elecciones son el momento democrático por excelencia. La Universidad de Buenos Aires se muestra particularmente efervescente 
@@ -242,7 +272,11 @@ if opcion_principal == "Inicio":
             </div>
                 """, unsafe_allow_html=True)
     st.divider()
-    st.subheader('¿Quiénes somos?')
+    col1, col2 = st.columns([1,8])
+    with col1:
+        st.image('img/icon_quienes.png', width=width_logos)
+    with col2:
+        st.subheader('¿Quiénes somos?')
     st.markdown("""
                 <div style="text-align: justify;">
                 Somos un grupo de estudiantes y graduados interesados en la democracia universitaria, en los datos accesibles y en convidar el análisis fundamentado a
@@ -253,7 +287,7 @@ if opcion_principal == "Inicio":
                 -  Persona3
                 </div>
                 """, unsafe_allow_html=True)      
-    st.image(ruta_logo)
+    st.image(ruta_logo_ext)
     
 
 # Si se selecciona "Análisis por Facultad"

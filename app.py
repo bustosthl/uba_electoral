@@ -7,14 +7,25 @@ from streamlit_javascript import st_javascript
 
 # tarjeta para métricas
 def metric_display(etiqueta, valor):
-        st.markdown(f"""<div style="border: 2px solid #B2DDF7;
-                padding: 10px; border-radius: 10px; background-color: #B2DDF7;
-                display:flex; flex-direction:column; align-items:center;
-                    justify-content:center;
-                text-align: center;>
-                <h2 style="margin:0;">{etiqueta}</h2>
-                <h1 style="margin:0;">{valor}</h1>
-                </div>""", unsafe_allow_html=True)
+    st.markdown(f"""
+        <div style="
+            border: 2px solid #B2DDF7;
+            padding: 10px;
+            border-radius: 0px;
+            background-color: #B2DDF7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 90%;
+            max-width: 300px;
+            margin: 10px auto;
+        ">
+            <h2 style="margin: 0; font-size: 1.5rem;">{etiqueta}</h2>
+            <h1 style="margin: 0; font-size: 2rem;">{valor}</h1>
+        </div>
+    """, unsafe_allow_html=True)
         
 # Cargar los textos de análisis desde el archivo Excel
 def cargar_textos():

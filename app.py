@@ -9,10 +9,10 @@ from streamlit_javascript import st_javascript
 def metric_display(etiqueta, valor):
     st.markdown(f"""
         <div style="
-            border: 2px solid {pc};
+            border: 2px solid {pcolor};
             padding: 10px;
             border-radius: 10px;
-            background-color: {pc};
+            background-color: {pcolor};
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -189,7 +189,7 @@ def mostrar_pagina(facultad):
 st.set_page_config(page_title='Resultados electorales UBA', 
                    #page_icon="chart_with_upwards_trend",
                    page_icon='img/favicon.png',
-                   # layout='wide'
+                    layout='wide'
                    )
 
 ruta_logo_ext = 'img/uba_electoral.png'
@@ -233,7 +233,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-pc = st.get_option('theme.primaryColor')
+pcolor = st.get_option('theme.primaryColor')
+bcolor = st.get_option('theme.backgroundColor')
+sbcolor = st.get_option('theme.secondaryBackgroundColor')
+text_st_color = 'red'
 st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50
@@ -247,17 +250,17 @@ opcion_principal = option_menu(
     orientation="horizontal",  # Esto hace que el menú sea horizontal
     #styles={"nav-link":{"--hover-color":"#ce1428"}}
     styles={
-        "container": {"padding": "10!important", "background-color": "#161616"},
+        "container": {"padding": "10!important", "background-color": sbcolor},
         "nav-link": {
             "font-size": "18px",
             "text-align": "center",
             "margin": "0px",
             "color": "#FFFFFF",  # Color del texto por defecto
-            "--hover-color": "#80ED99",  # Color de fondo al pasar el mouse
+            "--hover-color": pcolor,  # Color de fondo al pasar el mouse
         },
         "nav-link-selected": {
-            "background-color": "#80ED99",  # Color de fondo cuando está seleccionada
-            "color": "#303030",  # Color del texto cuando está seleccionada
+            "background-color": pcolor,  # Color de fondo cuando está seleccionada
+            "color": bcolor,  # Color del texto cuando está seleccionada
         },
     }
 )
@@ -291,11 +294,11 @@ if opcion_principal == "Inicio":
         st.metric("Listas",datos_electorales['Nombre Lista'].nunique())
     st.divider()
 
-    col1, col2 = st.columns([1,8])
+    col1, col2 = st.columns([1,12])
     with col1:
-        st.image('img/icon_como.png', width=width_logos)
+        st.image('img/icon_como.svg', width=width_logos)
     with col2:
-        st.subheader(':green[¿Cómo se utiliza?]')
+        st.subheader(f':{text_st_color}[¿Cómo se utiliza?]')
     if isMobile:
         st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
                     Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
@@ -314,9 +317,9 @@ if opcion_principal == "Inicio":
     
     col1, col2 = st.columns([1,8])
     with col1:
-        st.image('img/icon_porque.png', width=width_logos)
+        st.image('img/icon_porque.svg', width=width_logos)
     with col2:
-        st.subheader(':green[¿Por qué una página de resultados electorales?]')
+        st.subheader(f':{text_st_color}[¿Por qué una página de resultados electorales?]')
     st.markdown("""
             <div style="text-align: justify;">
             Las elecciones son el momento democrático por excelencia. La Universidad de Buenos Aires se muestra particularmente efervescente 
@@ -329,9 +332,9 @@ if opcion_principal == "Inicio":
     st.divider()
     col1, col2 = st.columns([1,8])
     with col1:
-        st.image('img/icon_quienes.png', width=width_logos)
+        st.image('img/icon_quienes.svg', width=width_logos)
     with col2:
-        st.subheader(':green[¿Quiénes somos?]')
+        st.subheader(f':{text_st_color}[¿Quiénes somos?]')
     st.markdown("""
                 <div style="text-align: justify;">
                 Somos un grupo de estudiantes y graduados interesados en la democracia universitaria, en los datos accesibles y en convidar el análisis fundamentado a
@@ -368,7 +371,7 @@ elif opcion_principal == "Análisis por Facultad":
 
         st.title('Listas ganadoras en el 2024')
         for facultad, lista, votos, porcentaje in zipped:
-            st.header(f':green[{facultad}]', divider=False)
+            st.header(f':{text_st_color}[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])
             col2.metric("Lista", lista)
             if facultad=='Odontología':

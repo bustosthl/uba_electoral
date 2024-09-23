@@ -325,7 +325,7 @@ elif opcion_principal == "Análisis por Facultad":
 
         st.title('Listas ganadoras en el 2024')
         for facultad, lista, votos, porcentaje in zipped:
-            st.header(f':red[{facultad}]', divider=False)
+            st.header(f':blue[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])
             col2.metric("Lista", lista)
             if facultad=='Odontología':

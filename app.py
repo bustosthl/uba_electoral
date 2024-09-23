@@ -9,10 +9,10 @@ from streamlit_javascript import st_javascript
 def metric_display(etiqueta, valor):
     st.markdown(f"""
         <div style="
-            border: 2px solid #B2DDF7;
+            border: 2px solid {pc};
             padding: 10px;
             border-radius: 0px;
-            background-color: #B2DDF7;
+            background-color: {pc};
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -206,6 +206,7 @@ if "mobile" in str(ua_string).lower():
 else:
     isMobile=False
 
+pc = st.get_option('theme.primaryColor')
 st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50
@@ -323,9 +324,8 @@ elif opcion_principal == "Análisis por Facultad":
         datos_electorales_gral['Votos'], datos_electorales_gral['%'])
 
         st.title('Listas ganadoras en el 2024')
-        pc = st.get_option('theme.primaryColor')
         for facultad, lista, votos, porcentaje in zipped:
-            st.header(f':blue[{facultad}]', divider=False)
+            st.header(f':red[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])
             col2.metric("Lista", lista)
             if facultad=='Odontología':
@@ -405,7 +405,9 @@ elif opcion_principal == "Exploración de Datos":
                 fig.update_layout(showlegend=False)
         st.plotly_chart(fig)
 
-    st.write(df_filtrado.drop(columns=['color','filtrar']))
+    dic = {"%": "{:.2f}".format,"Votos":"{:.0f}".format,
+           "Año":"{:.0f}".format,"Bancas":"{:.0f}".format}
+    st.dataframe(df_filtrado.drop(columns=['color','filtrar']).style.format(dic), hide_index=True)
     # Función para convertir a CSV
     @st.cache_data
     def convertir_a_csv(df):

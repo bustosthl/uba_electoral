@@ -236,7 +236,7 @@ st.markdown("""
 pcolor = st.get_option('theme.primaryColor')
 bcolor = st.get_option('theme.backgroundColor')
 sbcolor = st.get_option('theme.secondaryBackgroundColor')
-text_st_color = 'red'
+text_st_color = 'green'
 st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50

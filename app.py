@@ -277,7 +277,7 @@ if opcion_principal == "Inicio":
             <div style="text-align: justify;">
             Las elecciones son el momento democrático por excelencia. La Universidad de Buenos Aires se muestra particularmente efervescente 
             durante los procesos electorales y, sin embargo, no posee sus resultados accesibles y al alcance de cualquier persona de la comunidad educativa.
-            Quizás por su naturaleza descentralizada, la información se publica el formatos y lugares disímiles en cada una de las casas de estudio. Por eso
+            Quizás por su naturaleza descentralizada, la información se publica en formatos y lugares disímiles en cada una de las casas de estudio. Por eso
             realizamos este esfuerzo: <b>concentrar y disponibilizar la síntesis del ejercicio ciudadano universitario</b>.  
             
             </div>
@@ -310,20 +310,19 @@ elif opcion_principal == "Análisis por Facultad":
     st.title("Resultados electorales")
     st.markdown(f"""<div style="text-align: justify;">
                 Seleccioná la facultad de tu interés para ver los resultados a Consejo Directivo de las últimas tres elecciones.
-                No siempre están disponibles la cantidad absoluta de votos, pero estamos trabajando para que estén dispnibles
+                No siempre está accesible la cantidad absoluta de votos, pero estamos trabajando para que disponibilizarla
                 en todos los años para todas las facultades.
                 </div>""", unsafe_allow_html=True)
-    
+    st.markdown('')
     facultad_seleccionada = st.selectbox("Selecciona una facultad", ['General'] + facultades)
     if facultad_seleccionada=="General":
-        st.write("general")
         datos_electorales_gral = (datos_electorales[datos_electorales['Año']==2024]
                                   .sort_values(['Facultad','Votos'], ascending=False)
                                   .drop_duplicates(subset=['Facultad','Año']))
         zipped = zip(datos_electorales_gral['Facultad'], datos_electorales_gral['Nombre Lista'], 
         datos_electorales_gral['Votos'], datos_electorales_gral['%'])
 
-        st.title('Ganadores 2024')
+        st.title('Listas ganadoras en el 2024')
         pc = st.get_option('theme.primaryColor')
         for facultad, lista, votos, porcentaje in zipped:
             st.header(f':blue[{facultad}]', divider=False)

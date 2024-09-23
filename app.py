@@ -189,7 +189,7 @@ def mostrar_pagina(facultad):
 st.set_page_config(page_title='Resultados electorales UBA', 
                    #page_icon="chart_with_upwards_trend",
                    page_icon='img/favicon.png',
-                    layout='wide'
+                   # layout='wide'
                    )
 
 ruta_logo_ext = 'img/uba_electoral.png'

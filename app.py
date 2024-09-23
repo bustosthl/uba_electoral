@@ -205,6 +205,33 @@ if "mobile" in str(ua_string).lower():
     isMobile=True
 else:
     isMobile=False
+st.markdown("""
+    <style>
+        ::selection {
+            background-color: #80ED99; /* Color de fondo al resaltar */
+            color: #303030; /* Color del texto al resaltar */
+        }
+
+        /* Para Firefox */
+        ::-moz-selection {
+            background-color: #80ED99;
+            color: #303030;
+        }
+
+        /* Estilos específicos para las opciones del menú */
+        .nav-link {
+            color: #FFFFFF !important;  /* Color de texto por defecto */
+        }
+        .nav-link:hover {
+            background-color: #80ED99 !important;  /* Color de fondo al pasar el mouse */
+            color: #303030 !important;  /* Color de texto al pasar el mouse */
+        }
+        .nav-link-selected {
+            background-color: #80ED99 !important;  /* Color de fondo cuando está seleccionada */
+            color: #303030 !important;  /* Color del texto cuando está seleccionada */
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 pc = st.get_option('theme.primaryColor')
 st.image(ruta_logo_ext)
@@ -219,7 +246,20 @@ opcion_principal = option_menu(
     default_index=0,  # Seleccionar la primera opción por defecto
     orientation="horizontal",  # Esto hace que el menú sea horizontal
     #styles={"nav-link":{"--hover-color":"#ce1428"}}
-    styles = {'selected':{"background-color":"black"},"label":{"color":"black"}}
+    styles={
+        "container": {"padding": "10!important", "background-color": "#161616"},
+        "nav-link": {
+            "font-size": "18px",
+            "text-align": "center",
+            "margin": "0px",
+            "color": "#FFFFFF",  # Color del texto por defecto
+            "--hover-color": "#80ED99",  # Color de fondo al pasar el mouse
+        },
+        "nav-link-selected": {
+            "background-color": "#80ED99",  # Color de fondo cuando está seleccionada
+            "color": "#303030",  # Color del texto cuando está seleccionada
+        },
+    }
 )
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
@@ -241,18 +281,21 @@ if opcion_principal == "Inicio":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        metric_display("Elecciones",datos_electorales['Año'].nunique())
+        #metric_display("Elecciones",datos_electorales['Año'].nunique())
+        st.metric("Elecciones",datos_electorales['Año'].nunique())
     with col2:
-        metric_display("Facultades",datos_electorales['Facultad'].nunique())
+        #metric_display("Facultades",datos_electorales['Facultad'].nunique())
+        st.metric("Facultades",datos_electorales['Facultad'].nunique())
     with col3:
-        metric_display("Listas",datos_electorales['Nombre Lista'].nunique())
+        #metric_display("Listas",datos_electorales['Nombre Lista'].nunique())
+        st.metric("Listas",datos_electorales['Nombre Lista'].nunique())
     st.divider()
 
     col1, col2 = st.columns([1,8])
     with col1:
         st.image('img/icon_como.png', width=width_logos)
     with col2:
-        st.subheader('¿Cómo se utiliza?')
+        st.subheader(':green[¿Cómo se utiliza?]')
     if isMobile:
         st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
                     Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
@@ -273,7 +316,7 @@ if opcion_principal == "Inicio":
     with col1:
         st.image('img/icon_porque.png', width=width_logos)
     with col2:
-        st.subheader('¿Por qué una página de resultados electorales?')
+        st.subheader(':green[¿Por qué una página de resultados electorales?]')
     st.markdown("""
             <div style="text-align: justify;">
             Las elecciones son el momento democrático por excelencia. La Universidad de Buenos Aires se muestra particularmente efervescente 
@@ -288,7 +331,7 @@ if opcion_principal == "Inicio":
     with col1:
         st.image('img/icon_quienes.png', width=width_logos)
     with col2:
-        st.subheader('¿Quiénes somos?')
+        st.subheader(':green[¿Quiénes somos?]')
     st.markdown("""
                 <div style="text-align: justify;">
                 Somos un grupo de estudiantes y graduados interesados en la democracia universitaria, en los datos accesibles y en convidar el análisis fundamentado a
@@ -325,7 +368,7 @@ elif opcion_principal == "Análisis por Facultad":
 
         st.title('Listas ganadoras en el 2024')
         for facultad, lista, votos, porcentaje in zipped:
-            st.header(f':blue[{facultad}]', divider=False)
+            st.header(f':green[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])
             col2.metric("Lista", lista)
             if facultad=='Odontología':

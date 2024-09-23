@@ -11,7 +11,7 @@ def metric_display(etiqueta, valor):
         <div style="
             border: 2px solid {pc};
             padding: 10px;
-            border-radius: 0px;
+            border-radius: 10px;
             background-color: {pc};
             display: flex;
             flex-direction: column;
@@ -22,8 +22,8 @@ def metric_display(etiqueta, valor):
             max-width: 300px;
             margin: 10px auto;
         ">
-            <h1 style="margin: 0; font-size: 3rem;">{valor}</h1>
-            <h2 style="margin: 0; font-size: 1.5rem;">{etiqueta}</h2>
+            <h1 style="margin-bottom: 0em; font-size: 3rem;">{valor}</h1>
+            <h2 style="margin-top: 0em; font-size: 1.5rem;">{etiqueta}</h2>
         </div>
     """, unsafe_allow_html=True)
         

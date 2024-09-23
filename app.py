@@ -22,8 +22,8 @@ def metric_display(etiqueta, valor):
             max-width: 300px;
             margin: 10px auto;
         ">
+            <h1 style="margin: 0; font-size: 3rem;">{valor}</h1>
             <h2 style="margin: 0; font-size: 1.5rem;">{etiqueta}</h2>
-            <h1 style="margin: 0; font-size: 2rem;">{valor}</h1>
         </div>
     """, unsafe_allow_html=True)
         
@@ -304,7 +304,7 @@ if opcion_principal == "Inicio":
 # Si se selecciona "Análisis por Facultad"
 elif opcion_principal == "Análisis por Facultad":
     datos_electorales = cargar_datos_electorales()
-    facultades = datos_electorales['Facultad'].unique()
+    facultades = datos_electorales['Facultad'].unique().tolist()
     
         
     st.title("Resultados electorales")
@@ -314,8 +314,30 @@ elif opcion_principal == "Análisis por Facultad":
                 en todos los años para todas las facultades.
                 </div>""", unsafe_allow_html=True)
     
-    facultad_seleccionada = st.selectbox("Selecciona una facultad", facultades)
-    mostrar_pagina(facultad_seleccionada)
+    facultad_seleccionada = st.selectbox("Selecciona una facultad", ['General'] + facultades)
+    if facultad_seleccionada=="General":
+        st.write("general")
+        datos_electorales_gral = (datos_electorales[datos_electorales['Año']==2024]
+                                  .sort_values(['Facultad','Votos'], ascending=False)
+                                  .drop_duplicates(subset=['Facultad','Año']))
+        zipped = zip(datos_electorales_gral['Facultad'], datos_electorales_gral['Nombre Lista'], 
+        datos_electorales_gral['Votos'], datos_electorales_gral['%'])
+
+        st.title('Ganadores 2024')
+        pc = st.get_option('theme.primaryColor')
+        for facultad, lista, votos, porcentaje in zipped:
+            st.header(f':blue[{facultad}]', divider=False)
+            col2, col3, col4 = st.columns([4,1,1])
+            col2.metric("Lista", lista)
+            if facultad=='Odontología':
+                pass
+            else:
+                col3.metric("Votos", int(votos))
+            col4.metric("%", porcentaje)
+            st.divider()
+            
+    else:
+        mostrar_pagina(facultad_seleccionada)
 
 # Si se selecciona "Exploración de Datos"
 elif opcion_principal == "Exploración de Datos":

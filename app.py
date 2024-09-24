@@ -242,12 +242,6 @@ font-family: 'Inter', sans-serif;
 }
 """
 st.markdown(f'<style>{fontuse}</style>', unsafe_allow_html=True )
-st.markdown('''
-  <h1 style="font-family: 'Inter', sans-serif;">
-    Inter
-  </h1>
-            <h1> Inter </h1>
-''', unsafe_allow_html=True)
 
 pcolor = st.get_option('theme.primaryColor')
 bcolor = st.get_option('theme.backgroundColor')

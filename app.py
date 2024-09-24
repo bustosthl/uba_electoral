@@ -60,7 +60,8 @@ def grafico_participacion(df, facultad):
         )
         fig.update_layout(
             modebar_remove=['zoom', 'zoomIn', 'zoomOut', 'autoScale', 'lasso2d', 'select2d','pan'],
-            modebar_add=['resetScale2d']
+            modebar_add=['resetScale2d'],
+            dragmode=False,  # Desactivar el modo de arrastre (sin zoom)
             )
         st.plotly_chart(fig)
 
@@ -99,7 +100,9 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
     )
     fig.update_layout(
         modebar_remove=['zoom', 'zoomIn', 'zoomOut', 'autoScale', 'lasso2d', 'select2d','pan'],
-        modebar_add=['resetScale2d']
+        modebar_add=['resetScale2d'],
+        dragmode=False,  # Desactivar el modo de arrastre (sin zoom)
+
     )
     st.markdown("")
     col0, col1, col2,_ = st.columns([1,1,1,3])

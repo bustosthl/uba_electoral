@@ -6,6 +6,7 @@ import plotly.express as px
 from streamlit_javascript import st_javascript
 from funciones.carga_datos import cargar_textos, cargar_datos_electorales
 from funciones.graficos import grafico_participacion, grafico_votos_porcentuales, grafico_consejeros
+import global_vars
 
 # tarjeta para métricas
 def metric_display(etiqueta, valor):
@@ -190,7 +191,7 @@ if opcion_principal == "Inicio":
         st.image('img/icon_como.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Cómo se utiliza?]')
-    if isMobile:
+    if global_vars.isMobile:
         st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
                     Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
                     llegues a la parte de los gráficos :)""", icon="⚠️")
@@ -326,7 +327,7 @@ elif opcion_principal == "Exploración de Datos":
                       '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>',
                       textfont=dict(size=1))
         showlegend=True
-        if isMobile:
+        if global_vars.isMobile:
             showlegend=False
         fig.update_layout(
             showlegend=showlegend,  # Ocultar la leyenda 

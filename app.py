@@ -245,6 +245,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+    <style>
+        /* Cambiar el fondo de las opciones */
+        div[data-baseweb="select"] .css-26l3qy-menu {
+            background-color: #80ED99 !important;  /* Fondo verde para las opciones */
+        }
+        /* Cambiar el color del texto en las opciones */
+        div[data-baseweb="select"] .css-26l3qy-option {
+            color: black !important;  /* Texto negro para las opciones */
+        }
+        /* Cambiar el fondo y el color del texto de la opción seleccionada */
+        div[data-baseweb="select"] .css-26l3qy-option:active {
+            background-color: #80ED99 !important;
+            color: black !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 fontuse = """
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
@@ -385,7 +403,8 @@ elif opcion_principal == "Análisis por Facultad":
     st.markdown('')
     facultad_seleccionada = st.selectbox("Selecciona una facultad", ['General'] + facultades)
     if facultad_seleccionada=="General":
-        datos_electorales_gral = (datos_electorales[datos_electorales['Año']==2024]
+        anio = st.radio("",datos_electorales['Año'].sort_values(ascending=False).unique(), horizontal=True)
+        datos_electorales_gral = (datos_electorales[datos_electorales['Año']==anio]
                                   .sort_values(['Facultad','Votos'], ascending=False)
                                   .drop_duplicates(subset=['Facultad','Año'])
                                   .sort_values('%', ascending=False))

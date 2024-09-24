@@ -230,8 +230,24 @@ st.markdown("""
             background-color: #80ED99 !important;  /* Color de fondo cuando está seleccionada */
             color: #303030 !important;  /* Color del texto cuando está seleccionada */
         }
+            
     </style>
 """, unsafe_allow_html=True)
+
+fontuse = """
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+html, body, div, h1, h2, h3, h4, h5, h6, span, p, li, a, button,code,pre {    
+font-family: 'Inter', sans-serif;
+}
+"""
+st.markdown(f'<style>{fontuse}</style>', unsafe_allow_html=True )
+st.markdown('''
+  <h1 style="font-family: 'Inter', sans-serif;">
+    Inter
+  </h1>
+            <h1> Inter </h1>
+''', unsafe_allow_html=True)
 
 pcolor = st.get_option('theme.primaryColor')
 bcolor = st.get_option('theme.backgroundColor')

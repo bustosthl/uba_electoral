@@ -284,7 +284,8 @@ opcion_principal = option_menu(
 )
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":
-    st.title("Análisis de datos electorales - UBA")
+    st.title("Análisis de datos electorales")
+    st.header(f":{text_st_color}[UBA]")
     
     st.markdown("""
              <div style="text-align: justify;">
@@ -383,7 +384,8 @@ elif opcion_principal == "Análisis por Facultad":
     if facultad_seleccionada=="General":
         datos_electorales_gral = (datos_electorales[datos_electorales['Año']==2024]
                                   .sort_values(['Facultad','Votos'], ascending=False)
-                                  .drop_duplicates(subset=['Facultad','Año']))
+                                  .drop_duplicates(subset=['Facultad','Año'])
+                                  .sort_values('%', ascending=False))
         zipped = zip(datos_electorales_gral['Facultad'], datos_electorales_gral['Nombre Lista'], 
         datos_electorales_gral['Votos'], datos_electorales_gral['%'])
 
@@ -396,7 +398,7 @@ elif opcion_principal == "Análisis por Facultad":
                 pass
             else:
                 col3.metric("Votos", int(votos))
-            col4.metric("%", porcentaje)
+            col4.metric("%", round(porcentaje,1))
             st.divider()
             
     else:

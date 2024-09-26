@@ -268,10 +268,10 @@ elif opcion_principal == "Análisis por Facultad":
             st.header(f':{text_st_color}[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])
             col2.metric("Lista", lista)
-            if facultad=='Odontología':
-                pass
-            else:
+            try:
                 col3.metric("Votos", int(votos))
+            except:
+                pass
             col4.metric("%", round(porcentaje,1))
             st.divider()
             

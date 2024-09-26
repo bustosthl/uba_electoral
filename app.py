@@ -347,12 +347,13 @@ elif opcion_principal == "Exploración de Datos":
 
     dic = {"%": "{:.2f}".format,"Votos":"{:.0f}".format,
            "Año":"{:.0f}".format,"Bancas":"{:.0f}".format}
-    st.dataframe(df_filtrado.drop(columns=['color','filtrar']).style.format(dic), hide_index=True)
+    cols_drop=['color','filtrar','nombre_clean']
+    st.dataframe(df_filtrado.drop(columns=cols_drop).style.format(dic), hide_index=True)
     # Función para convertir a CSV
     @st.cache_data
     def convertir_a_csv(df):
         return df.to_csv(index=True).encode('utf-8')
-    csv_long = convertir_a_csv(df_filtrado.drop(columns=['color','filtrar']))
+    csv_long = convertir_a_csv(df_filtrado.drop(columns=cols_drop))
     st.subheader("Descargar datos")
     descarga = st.download_button(label="Presiona para descargar", data=csv_long,
                        file_name='datos_filtrados.csv',mime='text/csv')

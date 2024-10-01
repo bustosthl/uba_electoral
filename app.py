@@ -294,7 +294,7 @@ elif opcion_principal == "Exploración de Datos":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        facultad_seleccionada = st.multiselect("Facultad", facultades, default=facultades[:2],  placeholder="elegí una opción")
+        facultad_seleccionada = st.multiselect("Facultad", facultades, default=facultades[:1],  placeholder="elegí una opción")
     with col2:
         año_seleccionado = st.slider("Año", min_año, max_año, (min_año, max_año))
     with col3:
@@ -353,11 +353,14 @@ elif opcion_principal == "Exploración de Datos":
     @st.cache_data
     def convertir_a_csv(df):
         return df.to_csv(index=True).encode('utf-8')
-    csv_long = convertir_a_csv(df_filtrado.drop(columns=cols_drop))
+    csv_long_filtrado = convertir_a_csv(df_filtrado.drop(columns=cols_drop))
+    csv_long = convertir_a_csv(datos_electorales.drop(columns=cols_drop))
     st.subheader("Descargar datos")
-    descarga = st.download_button(label="Presiona para descargar", data=csv_long,
-                       file_name='datos_filtrados.csv',mime='text/csv')
+    descarga = st.download_button(label="Descarga base filtrada", data=csv_long_filtrado,
+                       file_name='UBA_electoral_filtrado.csv',mime='text/csv')
+    descarga_completo = st.download_button(label="Descarga base completa", data=csv_long,
+                       file_name='UBA_electoral.csv',mime='text/csv')
     
-    if descarga:
+    if descarga | descarga_completo:
         st.balloons()
 

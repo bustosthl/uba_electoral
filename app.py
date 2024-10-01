@@ -356,9 +356,9 @@ elif opcion_principal == "Exploración de Datos":
     csv_long_filtrado = convertir_a_csv(df_filtrado.drop(columns=cols_drop))
     csv_long = convertir_a_csv(datos_electorales.drop(columns=cols_drop))
     st.subheader("Descargar datos")
-    descarga = st.download_button(label="Descarga base filtrada", data=csv_long_filtrado,
+    descarga = st.download_button(label="Descargar base filtrada", data=csv_long_filtrado,
                        file_name='UBA_electoral_filtrado.csv',mime='text/csv')
-    descarga_completo = st.download_button(label="Descarga base completa", data=csv_long,
+    descarga_completo = st.download_button(label="Descargar base completa", data=csv_long,
                        file_name='UBA_electoral.csv',mime='text/csv')
     
     if descarga | descarga_completo:

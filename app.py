@@ -23,11 +23,12 @@ def metric_display(etiqueta, valor):
             text-align: center;
             width: 90%;
             max-width: 300px;
-            margin: 10px auto;
+            margin: 100px 200px;
         ">
             <h1 style="margin-bottom: 0em; font-size: 3rem;">{valor}</h1>
             <h2 style="margin-top: 0em; font-size: 1.5rem;">{etiqueta}</h2>
         </div>
+        </br>
     """, unsafe_allow_html=True)
 
 

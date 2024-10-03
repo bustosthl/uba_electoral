@@ -18,11 +18,14 @@ def grafico_participacion(df, facultad):
                # markers=True, 
                 labels={'Votos': 'Cantidad de Votos', 'Año': ''})
         
-        fig.update_traces(text=df['Votos'], marker_color=global_vars.color_linea, textfont=dict(size=22))
+        fig.update_traces(text=df['Votos'], width=0.4,
+                          #marker_color=global_vars.color_linea, 
+                          marker_color = global_vars.pcolor,
+                          textfont=dict(size=18), textposition='outside')
         fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
 #fig.update_traces(line=dict(color=global_vars.color_linea, shape='spline'), marker=dict(size=12), text=df['Votos'])
         #fig.update_traces(mode="lines+markers+text", textposition="top center")
-        #fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
+        fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
         fig.update_traces(
             hovertemplate='<b>Año</b>: %{x}<br>' +
                         '<b>Votoss</b>: %{y:,}<extra></extra>'

@@ -15,7 +15,7 @@ def metric_display(etiqueta, valor):
             border: 2px solid {pcolor};
             padding: 10px;
             border-radius: 10px;
-            background-color: {pcolor};
+            /* background-color: {pcolor}; */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -134,20 +134,29 @@ width_logos = 50
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
-    options=["Inicio", "Análisis por Facultad", "Exploración de Datos"],
+    options=["Inicio", "Análisis por facultad", "Exploración de datos"],
     icons=["house", "bar-chart-line", "database"],  # Iconos de las opciones
     menu_icon="cast",  # Icono del menú principal
     default_index=0,  # Seleccionar la primera opción por defecto
     orientation="horizontal",  # Esto hace que el menú sea horizontal
     #styles={"nav-link":{"--hover-color":"#ce1428"}}
     styles={
-        "container": {"padding": "10!important", "background-color": sbcolor},
+        "container": {
+                      "background-color": sbcolor, 
+                      "display":"flex",
+                      #"align-items":"center",
+                       #"justify-content":"center"
+                       },
         "nav-link": {
             "font-size": "18px",
             "text-align": "center",
             "margin": "0px",
             "color": "#FFFFFF",  # Color del texto por defecto
             "--hover-color": pcolor,  # Color de fondo al pasar el mouse
+            "height": "100%",
+            "display":"flex",
+            "justify-content":"center",
+            "align-items":"center",
         },
         "nav-link-selected": {
             "background-color": pcolor,  # Color de fondo cuando está seleccionada
@@ -176,19 +185,19 @@ if opcion_principal == "Inicio":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        #metric_display("Elecciones",datos_electorales['Año'].nunique())
-        st.metric("Elecciones",datos_electorales['Año'].nunique())
+        metric_display("Elecciones",datos_electorales['Año'].nunique())
+        #st.metric("Elecciones",datos_electorales['Año'].nunique())
     with col2:
-        #metric_display("Facultades",datos_electorales['Facultad'].nunique())
-        st.metric("Facultades",datos_electorales['Facultad'].nunique())
+        metric_display("Facultades",datos_electorales['Facultad'].nunique())
+        #st.metric("Facultades",datos_electorales['Facultad'].nunique())
     with col3:
-        #metric_display("Listas",datos_electorales['Nombre Lista'].nunique())
-        st.metric("Listas",datos_electorales['Nombre Lista'].nunique())
+        metric_display("Listas",datos_electorales['Nombre Lista'].nunique())
+        #st.metric("Listas",datos_electorales['Nombre Lista'].nunique())
     st.divider()
 
     col1, col2 = st.columns([1,12])
     with col1:
-        st.image('img/icon_como.svg', width=width_logos)
+        st.image('img/icon_como_verde.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Cómo se utiliza?]')
     if global_vars.isMobile:
@@ -209,7 +218,7 @@ if opcion_principal == "Inicio":
     
     col1, col2 = st.columns([1,8])
     with col1:
-        st.image('img/icon_porque.svg', width=width_logos)
+        st.image('img/icon_porque_verde.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Por qué una página de resultados electorales?]')
     st.markdown("""
@@ -224,7 +233,7 @@ if opcion_principal == "Inicio":
     st.divider()
     col1, col2 = st.columns([1,8])
     with col1:
-        st.image('img/icon_quienes.svg', width=width_logos)
+        st.image('img/icon_quienes_verde.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Quiénes somos?]')
     st.markdown("""
@@ -241,7 +250,7 @@ if opcion_principal == "Inicio":
     
 
 # Si se selecciona "Análisis por Facultad"
-elif opcion_principal == "Análisis por Facultad":
+elif opcion_principal == "Análisis por facultad":
     datos_electorales = cargar_datos_electorales()
     facultades = datos_electorales['Facultad'].unique().tolist()
     
@@ -279,8 +288,8 @@ elif opcion_principal == "Análisis por Facultad":
         mostrar_pagina(facultad_seleccionada)
 
 # Si se selecciona "Exploración de Datos"
-elif opcion_principal == "Exploración de Datos":
-    st.title("Exploración de Datos")
+elif opcion_principal == "Exploración de datos":
+    st.title("Exploración de datos")
     st.markdown(f"""<div style="text-align: justify;">
                 Acá vas a poder explorar libremente los datos electorales, para la facultad y año que desees. 
                 En la mayoría de los casos vas a poder ver cantidad absoluta de votos. Más abajo vas a tener disponible

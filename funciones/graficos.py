@@ -13,6 +13,35 @@ def grafico_participacion(df, facultad):
         pass
     else:
         # Crear el gráfico de líneas con Plotly
+        fig = px.bar(df, x='Año', y='Votos', 
+                title=f'Votos totales en {facultad}', 
+               # markers=True, 
+                labels={'Votos': 'Cantidad de Votos', 'Año': ''})
+        
+        fig.update_traces(text=df['Votos'], marker_color=global_vars.color_linea, textfont=dict(size=22))
+        fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
+#fig.update_traces(line=dict(color=global_vars.color_linea, shape='spline'), marker=dict(size=12), text=df['Votos'])
+        #fig.update_traces(mode="lines+markers+text", textposition="top center")
+        #fig.update_yaxes(range=[0, df['Votos'].max()*1.2])
+        fig.update_traces(
+            hovertemplate='<b>Año</b>: %{x}<br>' +
+                        '<b>Votoss</b>: %{y:,}<extra></extra>'
+        )
+        fig.update_layout(
+            modebar_remove=['zoom', 'zoomIn', 'zoomOut', 'autoScale', 'lasso2d', 'select2d','pan'],
+            modebar_add=['resetScale2d'],
+            dragmode=False,  # Desactivar el modo de arrastre (sin zoom)
+            )
+        st.plotly_chart(fig)
+        
+def grafico_participacion_lineas(df, facultad):
+    df = df[df['Facultad'] == facultad]
+    df = df.pivot_table(index='Año', values='Votos', aggfunc='sum').reset_index().replace(0,np.nan).dropna()
+    
+    if len(df)==0:
+        pass
+    else:
+        # Crear el gráfico de líneas con Plotly
         fig = px.line(df, x='Año', y='Votos', 
                 title=f'Votos totales en {facultad}', 
                 markers=True, 
@@ -109,7 +138,7 @@ def grafico_consejeros(df, facultad):
     
     # Configuración del eje x para mostrar los años en orden
     fig.update_xaxes(type='category', categoryorder='array', categoryarray=df_expanded['Año'].sort_values().unique())
-    fig.update_traces(marker=dict(size=40, symbol='octagon')) # https://plotly.com/python/marker-style/#:~:text=The%20basic%20symbols%20are%3A%20circle,open%22%20to%20a%20symbol%20name.
+    fig.update_traces(marker=dict(size=40, symbol='circle')) # https://plotly.com/python/marker-style/#:~:text=The%20basic%20symbols%20are%3A%20circle,open%22%20to%20a%20symbol%20name.
     # Eliminar la cuadrícula, ticks y el eje Y
     fig.update_yaxes(showgrid=False, zeroline=False, showline=False, showticklabels=False)
     fig.update_traces(

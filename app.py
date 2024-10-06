@@ -62,7 +62,7 @@ def mostrar_pagina(facultad):
 # CSS y personalización
 st.set_page_config(page_title='Resultados electorales UBA', 
                    #page_icon="chart_with_upwards_trend",
-                   page_icon='img/uba_electoral_logo.svg',
+                   page_icon='img/uba_electoral_logo.png',
                    # layout='wide'
                    )
 
@@ -130,7 +130,7 @@ bcolor = st.get_option('theme.backgroundColor')
 sbcolor = st.get_option('theme.secondaryBackgroundColor')
 text_st_color = 'green'
 st.image(ruta_logo_ext)
-st.logo('img/uba_electoral_logo.svg')
+st.logo('img/uba_electoral_logo.png')
 width_logos = 50
 # Crear el menú superior horizontal
 opcion_principal = option_menu(

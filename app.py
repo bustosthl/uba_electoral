@@ -53,7 +53,7 @@ def mostrar_pagina(facultad):
     st.subheader("Votos válidos", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Votos Porcentuales'].values[0]}</div>""", unsafe_allow_html=True)
 
-    grafico_votos_porcentuales(datos_electorales, facultad)
+    grafico_votos_porcentuales(datos_electorales, facultad, isMobile=isMobile)
 
     st.subheader("Consejo Directivo", divider=sub_divider)
     st.markdown(f"""<div style="text-align: justify;">{texto_facultad['Texto Consejeros'].values[0]}</div>""", unsafe_allow_html=True)

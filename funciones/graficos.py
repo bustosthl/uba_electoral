@@ -64,8 +64,7 @@ def grafico_participacion_lineas(df, facultad):
             )
         st.plotly_chart(fig)
 
-def grafico_votos_porcentuales(df, facultad, y='%'):
-
+def grafico_votos_porcentuales(df, facultad, isMobile, y='%',):
     df = df[df['Facultad'] == facultad]
     df = (df.pivot_table(index=['Año','nombre_clean','color'], values=y, aggfunc='sum')
           .reset_index()
@@ -92,7 +91,7 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
                       '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>'
     )
     showlegend=True
-    if global_vars.isMobile:
+    if isMobile:
         showlegend=False
     fig.update_layout(
         showlegend=showlegend,  # Ocultar la leyenda 

@@ -305,8 +305,8 @@ elif opcion_principal == "Análisis por facultad":
         
     st.title("Resultados electorales")
     st.markdown(f"""<div style="text-align: justify;">
-                Seleccioná la facultad de tu interés para ver los resultados a Consejo Directivo de las últimas tres elecciones.
-                No siempre está accesible la cantidad absoluta de votos, pero estamos trabajando para que disponibilizarla
+                Seleccioná la facultad de tu interés para ver los resultados a Consejo Directivo de las últimas elecciones.
+                No siempre está accesible la cantidad absoluta de votos, pero estamos trabajando para disponibilizarla
                 en todos los años para todas las facultades.
                 </div>""", unsafe_allow_html=True)
     st.markdown('')

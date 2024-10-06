@@ -8,12 +8,6 @@ from funciones.carga_datos import cargar_textos, cargar_datos_electorales
 from funciones.graficos import grafico_participacion, grafico_votos_porcentuales, grafico_consejeros
 import global_vars
 
-ua_string = st_javascript("""window.navigator.userAgent;""")
-if "mobile" in str(ua_string).lower():
-    isMobile=True
-else:
-    isMobile=False
-
 # tarjeta para métricas
 def metric_display(etiqueta, valor):
     st.markdown(f"""
@@ -74,6 +68,11 @@ st.set_page_config(page_title='Resultados electorales UBA',
 
 ruta_logo_ext = 'img/uba_electoral.svg'
 
+ua_string = st_javascript("""window.navigator.userAgent;""")
+if "mobile" in str(ua_string).lower():
+    isMobile=True
+else:
+    isMobile=False
 
 st.markdown("""
     <style>

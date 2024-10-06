@@ -60,7 +60,7 @@ def mostrar_pagina(facultad):
     grafico_consejeros(datos_electorales, facultad)
 
 # CSS y personalización
-st.set_page_config(page_title='Resultados electorales UBA', 
+st.set_page_config(page_title='UBA electoral', 
                    #page_icon="chart_with_upwards_trend",
                    page_icon='img/uba_electoral_logo.png',
                    # layout='wide'

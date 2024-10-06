@@ -239,7 +239,7 @@ if opcion_principal == "Inicio":
     
     col1, col2 = st.columns([1,8])
     with col1:
-        st.image('img/icon_porque_verde.svg', width=width_logos)
+        st.image('img/icon_metodo_verde.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Por qué una página de resultados electorales?]')
     st.markdown("""
@@ -252,6 +252,24 @@ if opcion_principal == "Inicio":
             </div>
                 """, unsafe_allow_html=True)
     st.divider()
+
+    col1, col2 = st.columns([1,8])
+    with col1:
+        st.image('img/icon_porque_verde.svg', width=width_logos)
+    with col2:
+        st.subheader(f':{text_st_color}[¿Cómo construimos la base de datos?]')
+    st.markdown("""
+            <div style="text-align: justify;">
+            Los resultados electorales de las diferentes facultades de la Universidad de Buenos Aires no sólo tienen la complejidad 
+            de no estar centralizados: no comparten lugar ni formato de publicación. No sólo es distinto entre facultades: una misma
+            institución no tiene un histórico de resultados electorales homogéneo y accesible. Para los casos donde no encontramos
+            las actas en internet, se intentó contactar con la institución. En última instancia, recurrimos a fuentes periodísticas
+            de manera provisoria hasta que sean respondidos los pedidos de acceso a la información pública que realizamos por los
+            canales adecuados.
+            </div>
+                """, unsafe_allow_html=True)
+    st.divider()
+
     col1, col2 = st.columns([1,8])
     with col1:
         st.image('img/icon_quienes_verde.svg', width=width_logos)

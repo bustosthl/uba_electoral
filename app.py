@@ -133,15 +133,24 @@ st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50
 # Crear el menú superior horizontal
-opcion_principal = option_menu(
-    menu_title=None,  # Ocultar título de menú
-    options=["Inicio", "Análisis por facultad", "Exploración de datos"],
-    icons=["house", "bar-chart-line", "database"],  # Iconos de las opciones
-    menu_icon="cast",  # Icono del menú principal
-    default_index=0,  # Seleccionar la primera opción por defecto
-    orientation="horizontal",  # Esto hace que el menú sea horizontal
-    #styles={"nav-link":{"--hover-color":"#ce1428"}}
-    styles={
+if global_vars.isMobile:
+    styles_menu = {"container": {
+                      "background-color": sbcolor, 
+                      "display":"flex",
+                      },
+                    "nav-link": {
+            "font-size": "18px",
+            "text-align": "center",
+            "margin": "0px",
+            "color": "#FFFFFF",  # Color del texto por defecto
+            "--hover-color": pcolor,  # Color de fondo al pasar el mouse
+                      },
+        "nav-link-selected": {
+            "background-color": pcolor,  # Color de fondo cuando está seleccionada
+            "color": bcolor,  # Color del texto cuando está seleccionada
+        }}
+else:
+    styles_menu = {
         "container": {
                       "background-color": sbcolor, 
                       "display":"flex",
@@ -164,6 +173,14 @@ opcion_principal = option_menu(
             "color": bcolor,  # Color del texto cuando está seleccionada
         },
     }
+opcion_principal = option_menu(
+    menu_title=None,  # Ocultar título de menú
+    options=["Inicio", "Análisis por facultad", "Exploración de datos"],
+    icons=["house", "bar-chart-line", "database"],  # Iconos de las opciones
+    menu_icon="cast",  # Icono del menú principal
+    default_index=0,  # Seleccionar la primera opción por defecto
+    orientation="horizontal",  # Esto hace que el menú sea horizontal
+    styles=styles_menu
 )
 # Si se selecciona "Presentación"
 if opcion_principal == "Inicio":

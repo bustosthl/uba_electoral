@@ -83,6 +83,7 @@ def grafico_votos_porcentuales(df, facultad, y='%'):
             lambda trace: trace.update(line_color=color, textfont=dict(color=color, size=1)) if trace.name == lista else ()
             )
     fig.update_traces(marker=dict(size=10), textfont=dict(size=1), line=dict(shape='spline'))
+    fig.update_xaxes(type='category', categoryorder='array', categoryarray=df['Año'].sort_values().unique())
     fig.update_xaxes(title_text=None)
     # Personalizar el tooltip
     fig.update_traces(

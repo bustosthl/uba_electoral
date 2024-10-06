@@ -23,9 +23,9 @@ def metric_display(etiqueta, valor):
             text-align: center;
             width: 90%;
             max-width: 300px;
-            margin: 100px 200px;
+            margin: auto;
         ">
-            <h1 style="margin-bottom: 0em; font-size: 3rem;">{valor}</h1>
+            <h1 style="margin-bottom: 0em; font-size: 3rem; width:full; margin:auto;">{valor}</h1>
             <h2 style="margin-top: 0em; font-size: 1.5rem;">{etiqueta}</h2>
         </div>
         </br>
@@ -62,11 +62,11 @@ def mostrar_pagina(facultad):
 # CSS y personalización
 st.set_page_config(page_title='Resultados electorales UBA', 
                    #page_icon="chart_with_upwards_trend",
-                   page_icon='img/favicon.png',
+                   page_icon='img/uba_electoral_logo.svg',
                    # layout='wide'
                    )
 
-ruta_logo_ext = 'img/uba_electoral.png'
+ruta_logo_ext = 'img/uba_electoral.svg'
 
 
 st.markdown("""
@@ -130,7 +130,7 @@ bcolor = st.get_option('theme.backgroundColor')
 sbcolor = st.get_option('theme.secondaryBackgroundColor')
 text_st_color = 'green'
 st.image(ruta_logo_ext)
-st.logo('img/uba_electoral_logo.png')
+st.logo('img/uba_electoral_logo.svg')
 width_logos = 50
 # Crear el menú superior horizontal
 opcion_principal = option_menu(
@@ -273,7 +273,7 @@ elif opcion_principal == "Análisis por facultad":
         zipped = zip(datos_electorales_gral['Facultad'], datos_electorales_gral['Nombre Lista'], 
         datos_electorales_gral['Votos'], datos_electorales_gral['%'])
 
-        st.title('Listas ganadoras en el 2024')
+        st.title(f'Listas ganadoras en {anio}')
         for facultad, lista, votos, porcentaje in zipped:
             st.header(f':{text_st_color}[{facultad}]', divider=False)
             col2, col3, col4 = st.columns([4,1,1])

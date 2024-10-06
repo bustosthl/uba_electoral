@@ -137,7 +137,8 @@ text_st_color = 'green'
 st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50
-# Crear el menú superior horizontal
+
+# defino estilo de botones
 if isMobile:
     styles_menu = {"container": {
                       "background-color": sbcolor
@@ -173,7 +174,8 @@ else:
             "color": bcolor,  # Color del texto cuando está seleccionada
         },
     }
-st.write(isMobile)
+
+# Crear el menú superior horizontal
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
     options=["Inicio", "Análisis por facultad", "Exploración de datos"],
@@ -225,7 +227,7 @@ if opcion_principal == "Inicio":
                     llegues a la parte de los gráficos :)""", icon="⚠️")
     st.markdown("""
             <div style="text-align: justify;">
-            Vas a encontrar dos secciones fundamentales: en <b>Análisis por Facultad</b> vas a poder seleccionar la institución de tu interés
+            Vas a encontrar dos secciones fundamentales: en <b>Análisis por facultad</b> vas a poder seleccionar la institución de tu interés
             y ver la evolución de los principales resultados de las elecciones a Consejo Directivo en el claustro de estudiantes. La sección se 
             organiza con un primer apartado con la evolución del total de votos; un segundo apartado con el porcentaje de votos válidos obtenidos
             por cada lista y, por último, la cantidad de bancas obtenidas en cada año. ¡Presioná en la leyenda de cada lista para que aparezca (o no) en el gráfico!
@@ -257,14 +259,22 @@ if opcion_principal == "Inicio":
         st.subheader(f':{text_st_color}[¿Quiénes somos?]')
     st.markdown("""
                 <div style="text-align: justify;">
-                Somos un grupo de estudiantes y graduados interesados en la democracia universitaria, en los datos accesibles y en convidar el análisis fundamentado a
-                cualquier persona interesada. Participaron de este desarrollo: 
-
-                -  Persona1
-                -  Persona2
-                -  Persona3
+                Somos un grupo de estudiantes y graduades con un gran interés en la democracia universitaria, en los datos accesibles y 
+                en convidar el análisis fundamentado a cualquier persona interesada. Participaron de este desarrollo: 
+                <br></br>
                 </div>
-                """, unsafe_allow_html=True)      
+                """, unsafe_allow_html=True)
+    col1, col2, col3, col4, col5 = st.columns([1,1.2,1,1,1])
+    with col1:
+        st.markdown("*Tomás Bustos,*", unsafe_allow_html=True)
+    with col2:
+        st.markdown("*Hermes Fernández,*")
+    with col3:
+        st.markdown("*Pilar Tovillas,*")
+    with col4:
+        st.markdown("*Luca Gelmini,*")
+    with col5:
+        st.markdown("*Pedro Sena Nir.*")      
     st.image(ruta_logo_ext)
     
 

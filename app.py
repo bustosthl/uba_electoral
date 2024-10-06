@@ -151,8 +151,6 @@ else:
         "container": {
                       "background-color": sbcolor, 
                       "display":"flex",
-                      #"align-items":"center",
-                       #"justify-content":"center"
                        },
         "nav-link": {
             "font-size": "18px",
@@ -170,6 +168,7 @@ else:
             "color": bcolor,  # Color del texto cuando está seleccionada
         },
     }
+st.write(global_vars.isMobile)
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
     options=["Inicio", "Análisis por facultad", "Exploración de datos"],

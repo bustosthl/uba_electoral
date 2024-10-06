@@ -376,7 +376,7 @@ elif opcion_principal == "Exploración de datos":
             fig.for_each_trace(
                 lambda trace: trace.update(line_color=color, textfont=dict(color=color, size=1)) if trace.name == lista else ()
                 )
-        fig.update_traces(marker=dict(size=10))
+        fig.update_traces(marker=dict(size=10), textfont=dict(size=1), line=dict(shape='spline'))
         fig.update_traces(
         hovertemplate='<b>Lista</b>: %{text}<br>' +
                       '<b>Año</b>: %{x}<br>' +

@@ -278,7 +278,7 @@ if opcion_principal == "Inicio":
         st.subheader(f':{text_st_color}[¿Quiénes somos?]')
     st.markdown("""
                 <div style="text-align: justify;">
-                Somos un grupo de estudiantes y graduades con un gran interés en la democracia universitaria, en los datos accesibles y 
+                Somos un grupo de estudiantes y graduades de sociología, filosofía y física con un gran interés en la democracia universitaria, en los datos accesibles y 
                 en convidar el análisis fundamentado a cualquier persona interesada. Participaron de este desarrollo: 
                 <br></br>
                 </div>

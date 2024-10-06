@@ -7,13 +7,6 @@ if st_theme == "light":
 else:
     color_linea = 'white'
 
-#from user_agents import parse
-ua_string = st_javascript("""window.navigator.userAgent;""")
-if "mobile" in str(ua_string).lower():
-    isMobile=True
-else:
-    isMobile=False
-
 pcolor = st.get_option('theme.primaryColor')
 bcolor = st.get_option('theme.backgroundColor')
 sbcolor = st.get_option('theme.secondaryBackgroundColor')

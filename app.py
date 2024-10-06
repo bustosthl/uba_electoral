@@ -8,6 +8,12 @@ from funciones.carga_datos import cargar_textos, cargar_datos_electorales
 from funciones.graficos import grafico_participacion, grafico_votos_porcentuales, grafico_consejeros
 import global_vars
 
+ua_string = st_javascript("""window.navigator.userAgent;""")
+if "mobile" in str(ua_string).lower():
+    isMobile=True
+else:
+    isMobile=False
+
 # tarjeta para métricas
 def metric_display(etiqueta, valor):
     st.markdown(f"""
@@ -133,7 +139,7 @@ st.image(ruta_logo_ext)
 st.logo('img/uba_electoral_logo.png')
 width_logos = 50
 # Crear el menú superior horizontal
-if global_vars.isMobile:
+if isMobile:
     styles_menu = {"container": {
                       "background-color": sbcolor
                       },
@@ -168,7 +174,7 @@ else:
             "color": bcolor,  # Color del texto cuando está seleccionada
         },
     }
-st.write(global_vars.isMobile)
+st.write(isMobile)
 opcion_principal = option_menu(
     menu_title=None,  # Ocultar título de menú
     options=["Inicio", "Análisis por facultad", "Exploración de datos"],
@@ -214,7 +220,7 @@ if opcion_principal == "Inicio":
         st.image('img/icon_como_verde.svg', width=width_logos)
     with col2:
         st.subheader(f':{text_st_color}[¿Cómo se utiliza?]')
-    if global_vars.isMobile:
+    if isMobile:
         st.warning("""La app está mejor preparada para ser utilizada desde una computadora. 
                     Si estás desde un dispositivo móvil, te recomendamos girar la pantalla cuando 
                     llegues a la parte de los gráficos :)""", icon="⚠️")
@@ -350,7 +356,7 @@ elif opcion_principal == "Exploración de datos":
                       '<b>Porcentaje de Votos</b>: %{y:,}<extra></extra>',
                       textfont=dict(size=1))
         showlegend=True
-        if global_vars.isMobile:
+        if isMobile:
             showlegend=False
         fig.update_layout(
             showlegend=showlegend,  # Ocultar la leyenda 

@@ -265,7 +265,8 @@ if opcion_principal == "Inicio":
             institución no tiene un histórico de resultados electorales homogéneo y accesible. Para los casos donde no encontramos
             las actas en internet, se intentó contactar con la institución. En última instancia, recurrimos a fuentes periodísticas
             de manera provisoria hasta que sean respondidos los pedidos de acceso a la información pública que realizamos por los
-            canales adecuados.
+            canales adecuados. Para aquellos casos donde no encontramos cantidad absoluta de votos nos permitimos dejar sólo 
+                el porcentaje de votos válidos. 
             </div>
                 """, unsafe_allow_html=True)
     st.divider()

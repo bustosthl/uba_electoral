@@ -135,13 +135,10 @@ width_logos = 50
 # Crear el menú superior horizontal
 if global_vars.isMobile:
     styles_menu = {"container": {
-                      "background-color": sbcolor, 
-                      "display":"flex",
+                      "background-color": sbcolor
                       },
                     "nav-link": {
             "font-size": "18px",
-            "text-align": "center",
-            "margin": "0px",
             "color": "#FFFFFF",  # Color del texto por defecto
             "--hover-color": pcolor,  # Color de fondo al pasar el mouse
                       },

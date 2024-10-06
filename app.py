@@ -257,7 +257,7 @@ if opcion_principal == "Inicio":
     with col1:
         st.image('img/icon_porque_verde.svg', width=width_logos)
     with col2:
-        st.subheader(f':{text_st_color}[¿Cómo construimos la base de datos?]')
+        st.subheader(f':{text_st_color}[¿Cómo se construyó la base de datos?]')
     st.markdown("""
             <div style="text-align: justify;">
             Los resultados electorales de las diferentes facultades de la Universidad de Buenos Aires no sólo tienen la complejidad 

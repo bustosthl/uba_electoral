@@ -354,7 +354,7 @@ elif opcion_principal == "Exploración de datos":
     with col2:
         año_seleccionado = st.slider("Año", min_año, max_año, (min_año, max_año))
     with col3:
-        valor_seleccionado = st.selectbox("Valor a ver", valores)
+        valor_seleccionado = st.selectbox("Valor a ver", valores, index=1)
 
     filtro = (datos_electorales['Facultad'].isin(facultad_seleccionada))
     filtro &= (datos_electorales['Año'] >= año_seleccionado[0]) & (datos_electorales['Año'] <= año_seleccionado[1])

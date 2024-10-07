@@ -344,6 +344,7 @@ elif opcion_principal == "Exploración de datos":
                 una visualización gráfica de las listas, la tabla resultante y, al final de este mismo apartado, 
                 <b>un botón para descargar en CSV los resultados que estés mirando</b>. 
                 </div>""", unsafe_allow_html=True)
+    st.divider()
     datos_electorales = cargar_datos_electorales()
     facultades = datos_electorales['Facultad'].unique().tolist()
     min_año, max_año = datos_electorales['Año'].min(),datos_electorales['Año'].max()

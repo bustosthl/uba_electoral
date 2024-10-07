@@ -4,4 +4,6 @@
 Para acceder a la aplicación, [clic acá](https://cutt.ly/NePiRbs0).
 
 # Fuentes de datos
-La manera más prolija de obtener la información es a partir del botón de descarga de la propia aplicación. Sin embargo, es posible descargar el excel de trabajo [en este link](https://github.com/bustosthl/uba_electoral/blob/main/uba_cd_estudiantes.xlsx).
+La manera más prolija de obtener la información es a partir del botón de descarga de la propia aplicación. Sin embargo, es posible descargar el archivo utilizado [en este link](https://github.com/bustosthl/uba_electoral/blob/main/uba_cd_estudiantes.xlsx).
+
+Las actas adquiridas vía correo pueden encontrarse [en este link](https://drive.google.com/drive/folders/1omUhW2VKXZsatMTana-lwFiPOyRS9neK?usp=sharing)

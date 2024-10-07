@@ -6,4 +6,6 @@ Para acceder a la aplicación, [clic acá](https://cutt.ly/NePiRbs0).
 # Fuentes de datos
 La manera más prolija de obtener la información es a partir del botón de descarga de la propia aplicación. Sin embargo, es posible descargar el archivo utilizado [en este link](https://github.com/bustosthl/uba_electoral/blob/main/uba_cd_estudiantes.xlsx).
 
-Las actas adquiridas vía correo pueden encontrarse [en este link](https://drive.google.com/drive/folders/1omUhW2VKXZsatMTana-lwFiPOyRS9neK?usp=sharing)
+Las fuentes originales fueron ordenadas; para el caso donde se obtuvieron por correo, descargamos las actas. Para el resto de los casos seleccionamos links. Algunos son datos de páginas oficiales, algunos son datos oficiales provistos por las agrupaciones, otros son resultados obtenidos por fuentes periodísticas. Todo se puede ver [en este link](https://drive.google.com/drive/folders/1omUhW2VKXZsatMTana-lwFiPOyRS9neK?usp=sharing)
+
+P
